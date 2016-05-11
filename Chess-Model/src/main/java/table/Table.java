@@ -31,7 +31,7 @@ public class Table {
 	
 	public void movePiece(int fromRow,int fromCol,int toRow,int toCol){
 		table[toRow][toCol]=table[fromRow][fromCol];
-		table[fromRow][fromCol]=null;
+		table[fromRow][fromCol]=new Piece();
 	}
 	
 	

@@ -4,6 +4,7 @@ public class Piece {
 
 	Color pieceColor;
 	Type pieceType;
+	boolean specialMove;
 	
 	
 	public Piece(){
@@ -36,6 +37,14 @@ public class Piece {
 	@Override
 	public String toString() {
 		return pieceColor.toString()+" "+pieceType.toString();
+	}
+
+	public boolean isSpecialMove() {
+		return specialMove;
+	}
+
+	public void setSpecialMove(boolean specialMove) {
+		this.specialMove = specialMove;
 	}
 	
 	

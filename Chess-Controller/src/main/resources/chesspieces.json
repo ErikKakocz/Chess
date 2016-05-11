@@ -78,7 +78,8 @@
 			"Row":"1",
 			"Column":"7",
 			"color":"Black"
-		  },{ "Type":"Rook",
+		  },
+		  { "Type":"Rook",
 			"Row":"7",
 			"Column":"0",
 			"color":"White"
