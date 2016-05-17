@@ -3,6 +3,8 @@ package controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -12,46 +14,82 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import pieces.Color;
 import pieces.Type;
 import table.Table;
+
 
 public class Controller extends Application{
 
 	static Table table;
 	static int BLACKPAWNSTART = 1, WHITEPAWNSTART = 6, BLACKPAWNJUMP = 3, WHITEPAWNJUMP = 4;
 	static Stage stage;
+	static Properties props;
 	
-	@Override
-	public void start(Stage arg0) throws Exception {
+	public Controller(){
+		table = new Table();
+		setupTable();
+		initializeProperties();
 		
 		
 	}
 	
-	public static void main(String[] args) {
-		table = new Table();
-		JsonParser parser = new JsonParser();
-		stage = new Stage();
+	public void initializeProperties(){
+		File propFile=new File(this.getClass().getClassLoader().getResource("Text_en.properties").getFile());
+		props=new Properties();
 		try {
-			JsonArray array = parser.parse(new FileReader(getJsonFile("chesspieces.json"))).getAsJsonArray();
-			for (JsonElement element : array) {
+			props.load(new FileReader(propFile));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void setupTable(){
+		JsonParser parser = new JsonParser();
+		try {
+			JsonArray array = parser.parse(new FileReader(getJsonFile("chesspieces.json"))).getAsJsonObject().get("pieces").getAsJsonArray();
+			for (JsonElement element : array){
 				JsonObject obj = element.getAsJsonObject();
 				table.setPiece(obj.get("Row").getAsInt(), obj.get("Column").getAsInt(),
-						pieceTranslator(obj.get("Type").getAsString()), colorTranslator(obj.get("Row").getAsString()));
+						pieces.Piece.pieceTranslator(obj.get("Type").getAsString()), pieces.Piece.colorTranslator(obj.get("Row").getAsString()));
 
 			}
 
 		} catch (JsonIOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (JsonSyntaxException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public void start(Stage arg0) throws Exception {
+		stage = arg0;
+		FXMLLoader loader=new FXMLLoader();
+		loader.setLocation(Controller.class.getResource("menu/Menu.fxml"));
+		stage.setTitle(props.getProperty("Title"));
+//		AnchorPane ancpane=(AnchorPane)loader.load();
+//		Scene scene=new Scene(ancpane);
+//		stage.setScene(scene);
+		stage.show();
+		
+	}
+	
+	public static void main(String[] args) {
+		launch(args);
 	}
 
 	
@@ -62,27 +100,7 @@ public class Controller extends Application{
 		return file;
 	}
 
-	static Color colorTranslator(String c) {
-		if (c.equalsIgnoreCase("white"))
-			return Color.WHITE;
-		else
-			return Color.BLACK;
-	}
-
-	static Type pieceTranslator(String c) {
-		if (c.equalsIgnoreCase("rook"))
-			return Type.ROOK;
-		else if (c.equalsIgnoreCase("knight"))
-			return Type.KNIGHT;
-		else if (c.equalsIgnoreCase("bishop"))
-			return Type.BISHOP;
-		else if (c.equalsIgnoreCase("king"))
-			return Type.KING;
-		else if (c.equalsIgnoreCase("queen"))
-			return Type.QUEEN;
-		else
-			return Type.PAWN;
-	}
+	
 
 	static void movePiece(int fromRow, int fromCol, int toRow, int toCol) {
 		if (validateMove(fromRow, fromCol, toRow, toCol) && notObstructed(fromRow, fromCol, toRow, toCol) && !(table

@@ -22,7 +22,7 @@ public class Table {
 	}
 	
 	public void setPiece(int row,int col,Type type,Color color){
-		table[row-1][col-1]=new Piece(color,type);
+		table[row][col]=new Piece(color,type);
 	}
 	
 	public Piece getPiece(int row,int col){

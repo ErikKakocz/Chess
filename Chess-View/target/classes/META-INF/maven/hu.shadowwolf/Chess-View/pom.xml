@@ -7,10 +7,5 @@
   </parent>
   <artifactId>Chess-View</artifactId>
   <dependencies>
-  	<dependency>
-  		<groupId>hu.shadowwolf</groupId>
-  		<artifactId>Chess-Controller</artifactId>
-  		<version>1.0</version>
-  	</dependency>
   </dependencies>
 </project>

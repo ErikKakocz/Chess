@@ -23,6 +23,11 @@
 			<artifactId>Chess-Model</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>hu.shadowwolf</groupId>
+			<artifactId>Chess-View</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 
 </project>
