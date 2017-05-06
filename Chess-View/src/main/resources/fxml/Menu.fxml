@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="BackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="337.0" prefWidth="600.0" stylesheets="menu.css" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.MenuViewController">
+   <children>
+      <AnchorPane fx:id="MainCanvas" prefHeight="334.0" prefWidth="600.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <Button fx:id="QuitButton" layoutX="384.0" layoutY="221.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="168.0" text="Quit" AnchorPane.rightAnchor="28.0">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <Button fx:id="LoginButton" layoutX="30.0" layoutY="221.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="168.0" text="Login" AnchorPane.leftAnchor="30.0">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <TextField fx:id="UserNameField" layoutX="300.0" layoutY="112.0" prefHeight="25.0" prefWidth="191.0" />
+            <TextField fx:id="PassField" layoutX="300.0" layoutY="157.0" prefHeight="25.0" prefWidth="191.0" />
+            <Text fx:id="TitleText" layoutX="216.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ChessMaster" textAlignment="CENTER" wrappingWidth="167.99999177455902" AnchorPane.leftAnchor="216.0" AnchorPane.rightAnchor="216.0">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Text>
+            <Label id="UserNameLabel" alignment="CENTER" layoutX="118.0" layoutY="116.0" prefHeight="17.0" prefWidth="160.0" text="Username:" textAlignment="CENTER" underline="true" />
+            <Label id="PasswordLabel" alignment="CENTER" layoutX="118.0" layoutY="161.0" prefHeight="17.0" prefWidth="160.0" text="Password:" textAlignment="CENTER" underline="true" />
+            <Button fx:id="SignUpButton" layoutX="206.0" layoutY="221.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="168.0" text="Sign Up">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Button>
+            <ComboBox fx:id="LanguageComboBox" layoutX="299.0" layoutY="71.0" prefHeight="25.0" prefWidth="191.0" promptText="Select Language" />
+            <Label fx:id="LanguageLabel" alignment="CENTER" layoutX="119.0" layoutY="75.0" prefHeight="17.0" prefWidth="160.0" text="Language:" underline="true" />
+            <Label fx:id="ErrorLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="195.0" prefHeight="17.0" prefWidth="469.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

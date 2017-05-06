@@ -1,216 +1,155 @@
 package controller;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import Exceptions.InvalidLoginCredentialsException;
 import java.util.Properties;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import pieces.Color;
-import pieces.Type;
+import menu.MenuViewController;
+import menu.RegistrationViewController;
+
+//import menu.RegistrationController;
+
 import table.Table;
 
 
 public class Controller extends Application{
 
 	static Table table;
-	static int BLACKPAWNSTART = 1, WHITEPAWNSTART = 6, BLACKPAWNJUMP = 3, WHITEPAWNJUMP = 4;
+	
 	static Stage stage;
 	static Properties props;
+        ApplicationController AppCont;
 	
 	public Controller(){
-		table = new Table();
-		setupTable();
-		initializeProperties();
-		
 		
 	}
 	
-	public void initializeProperties(){
-		File propFile=new File(this.getClass().getClassLoader().getResource("Text_en.properties").getFile());
-		props=new Properties();
-		try {
-			props.load(new FileReader(propFile));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 	
-	public void setupTable(){
-		JsonParser parser = new JsonParser();
-		try {
-			JsonArray array = parser.parse(new FileReader(getJsonFile("chesspieces.json"))).getAsJsonObject().get("pieces").getAsJsonArray();
-			for (JsonElement element : array){
-				JsonObject obj = element.getAsJsonObject();
-				table.setPiece(obj.get("Row").getAsInt(), obj.get("Column").getAsInt(),
-						pieces.Piece.pieceTranslator(obj.get("Type").getAsString()), pieces.Piece.colorTranslator(obj.get("Row").getAsString()));
-
-			}
-
-		} catch (JsonIOException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		} catch (JsonSyntaxException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		}
-	}
 	
 	@Override
-	public void start(Stage arg0) throws Exception {
-		stage = arg0;
-		FXMLLoader loader=new FXMLLoader();
-		loader.setLocation(Controller.class.getResource("menu/Menu.fxml"));
-		stage.setTitle(props.getProperty("Title"));
-//		AnchorPane ancpane=(AnchorPane)loader.load();
-//		Scene scene=new Scene(ancpane);
-//		stage.setScene(scene);
+	public void start(Stage arg) throws Exception {
+            
+            stage = arg;
+		
+                FXMLLoader loader=new FXMLLoader();
+		
+                loader.setLocation(MenuViewController.class.getResource("/fxml/Menu.fxml"));
+		
+                stage.setTitle("Chessmaster");
+                AppCont=new ApplicationController(this);
+                
+                
+		AnchorPane ancpane = null;
+                try{
+                    ancpane=(AnchorPane)loader.load();
+                    
+                }catch(Exception e){
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, e);
+                }
+                
+                Scene scene=new Scene(ancpane);
+		
+                stage.setScene(scene);
+                
+                MenuViewController controller = loader.<MenuViewController>getController();
+                controller.setupInterface(AppCont);
 		stage.show();
 		
 	}
-	
-	public static void main(String[] args) {
-		launch(args);
-	}
+        
+        public void QuitGame(){
+            try {
+                Platform.exit();
+            } catch (Exception ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        }
+        
+        public void OpenRegistrationWindow(String Uname,String Pass){	
+                Stage regStage=new Stage();
+                FXMLLoader loader=new FXMLLoader();
+		
+                
+                loader.setLocation(menu.RegistrationViewController.class.getResource("/fxml/Registration.fxml"));
+		
+                regStage.setTitle("Registration");
+                RegistrationController RegCont=new RegistrationController(this);
+                
+                
+		AnchorPane ancpane = null;
+                try{
+                    ancpane=(AnchorPane)loader.load();
+                    
+                }catch(Exception e){
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, e);
+                }
+                if(!Uname.isEmpty())
+                    ((TextField)ancpane.lookup("#UserNameField")).setText(Uname);
+               
+                if(!Pass.isEmpty()){
+                    ((TextField)ancpane.lookup("#PasswordField")).setText(Pass);
+                    ((TextField)ancpane.lookup("#PasswordAgainField")).setText(Pass);
+                }
+                
+                
+                Scene scene=new Scene(ancpane);
+		regStage.setScene(scene);
+                RegistrationViewController controller = loader.<RegistrationViewController>getController();
+                controller.setupInterface(RegCont);
+		regStage.show();
+        
+        }
+        
+        public void login(String username,String password) throws InvalidLoginCredentialsException{
+            Stage gameStage;    
+            
+            if(true) //todo bejelentkeztetés
+            {
+                gameStage=new Stage();
+                FXMLLoader loader=new FXMLLoader();
+		
+                loader.setLocation(RegistrationController.class.getResource("/fxml/Registration.fxml"));
+		
+                gameStage.setTitle("ChessMaster");
+                GameplayController gameCont=new GameplayController();
+                
+                
+		AnchorPane ancpane = null;
+                try{
+                    ancpane=(AnchorPane)loader.load();
+                    
+                }catch(Exception e){
+                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, e);
+                }
+                
+                Scene scene=new Scene(ancpane);
+		gameStage.setScene(scene);
+                menu.RegistrationViewController controller = loader.<menu.RegistrationViewController>getController();
+                controller.setupInterface(gameCont);
+		gameStage.show();
+            }else{
+                throw new InvalidLoginCredentialsException();
+            }
 
-	
-	
-	static File getJsonFile(String filename) {
-		ClassLoader cl = Controller.class.getClassLoader();
-		File file = new File(cl.getResource(filename).getFile());
-		return file;
-	}
+        }
 
-	
+    private static class RegistrationController {
 
-	static void movePiece(int fromRow, int fromCol, int toRow, int toCol) {
-		if (validateMove(fromRow, fromCol, toRow, toCol) && notObstructed(fromRow, fromCol, toRow, toCol) && !(table
-				.getPiece(toRow, toCol).getPieceColor().equals(table.getPiece(fromRow, fromCol).getPieceColor())))
-			table.movePiece(fromRow, fromCol, toRow, toCol);
-	}
+        public RegistrationController() {
+        }
 
-	
-	static boolean notObstructed(int fromRow, int fromCol, int toRow, int toCol) {
-		if (table.getPiece(fromRow, fromCol).getPieceType().equals(Type.PAWN)
-				&& !pawnAttack(fromRow, fromCol, toRow, toCol)
-				&& !table.getPiece(toRow, toCol).getPieceType().equals(Type.NULLPIECE)) {
-			return false;
-		} else {
-			int topLeftRow = Math.min(toRow, fromRow), topLeftCol = Math.min(toCol, fromCol),
-					botRightRow = Math.max(toRow, fromRow), botRightCol = Math.max(toCol, fromCol);
-			if (table.getPiece(fromRow, fromCol).getPieceColor().equals(table.getPiece(toRow, toCol).getPieceColor()))
-				return false;
-			while ((topLeftRow != botRightRow - 1) || (topLeftCol != botRightCol - 1)) {
-				if (topLeftRow != botRightRow - 1)
-					topLeftRow++;
-				if (topLeftCol != botRightCol - 1)
-					topLeftCol++;
-				if (!table.getPiece(topLeftRow, topLeftCol).getPieceType().equals(Type.NULLPIECE))
-					return false;
-			}
-		}
-		return true;
-	}
-
-	static boolean validateMove(int fromRow, int fromCol, int toRow, int toCol) {
-		boolean validPieceMove = false;
-		pieces.Type type = table.getPiece(fromRow, fromCol).getPieceType();
-		switch (type) {
-		case ROOK: {
-			validPieceMove = (horizontalMove(fromRow, fromCol, toRow, toCol)
-					|| verticalMove(fromRow, fromCol, toRow, toCol));
-			break;
-		}
-		case KNIGHT: {
-			validPieceMove = (((Math.abs((fromRow + 1) - (toRow + 1)) == 2)
-					&& (Math.abs((fromCol + 1) - (toCol + 1)) == 1))
-					|| ((Math.abs((fromRow + 1) - (toRow + 1)) == 1) && (Math.abs((fromCol + 1) - (toCol + 1)) == 2)));
-			break;
-		}
-		case BISHOP: {
-			validPieceMove = diagonalMove(fromRow, fromCol, toRow, toCol);
-			break;
-		}
-		case KING: {
-			validPieceMove = (Math.abs((fromRow + 1) - (toRow + 1)) < 2 && Math.abs((fromCol + 1) - (toCol + 1)) < 2);
-			break;
-		}
-		case QUEEN: {
-			validPieceMove = (horizontalMove(fromRow, fromCol, toRow, toCol)
-					|| verticalMove(fromRow, fromCol, toRow, toCol) || diagonalMove(fromRow, fromCol, toRow, toCol));
-			break;
-		}
-		case PAWN: {
-			validPieceMove = pawnJump(fromRow, fromCol, toRow, toCol) || pawnLeap(fromRow, fromCol, toRow, toCol)
-					|| pawnAttack(fromRow, fromCol, toRow, toCol)
-					|| pawnEnPassantAttack(fromRow, fromCol, toRow, toCol);
-		}
-		default:
-			break;
-		}
-		return validPieceMove;
-	}
-
-	static boolean horizontalMove(int fromRow, int fromCol, int toRow, int toCol) {
-		return (fromRow == toRow && fromCol != toCol);
-	}
-
-	static boolean verticalMove(int fromRow, int fromCol, int toRow, int toCol) {
-		return (fromRow != toRow && fromCol == toCol);
-	}
-
-	static boolean diagonalMove(int fromRow, int fromCol, int toRow, int toCol) {
-		return ((Math.abs((fromRow + 1) - (toRow + 1))) == (Math.abs((fromCol + 1) - (toCol + 1))));
-	}
-
-	static boolean pawnJump(int fromRow, int fromCol, int toRow, int toCol) {
-		return (fromRow == WHITEPAWNSTART && toRow == WHITEPAWNJUMP)
-				|| (fromRow == BLACKPAWNSTART && toRow == BLACKPAWNJUMP);
-	}
-
-	static boolean pawnLeap(int fromRow, int fromCol, int toRow, int toCol) {
-		if (table.getPiece(fromRow, fromCol).getPieceColor().equals(Color.WHITE))
-			return (toRow == (fromRow - 1)) && (fromCol == toCol);
-		else
-			return (toRow == (fromRow + 1)) && (fromCol == toCol);
-	}
-
-	static boolean pawnAttack(int fromRow, int fromCol, int toRow, int toCol) {
-		if (table.getPiece(fromRow, fromCol).getPieceColor().equals(Color.WHITE))
-			return (toRow == (fromRow - 1)) && (Math.abs(fromCol - toCol) == 1)
-					&& (table.getPiece(toRow, toCol).getPieceColor().equals(Color.BLACK));
-		else
-			return (toRow == (fromRow + 1)) && (Math.abs(fromCol - toCol) == 1)
-					&& (table.getPiece(toRow, toCol).getPieceColor().equals(Color.WHITE));
-	}
-
-	static boolean pawnEnPassantAttack(int fromRow, int fromCol, int toRow, int toCol) {
-		if (table.getPiece(fromRow, fromCol).getPieceColor().equals(Color.WHITE))
-			return (fromRow == BLACKPAWNJUMP) && (table.getPiece(fromRow, toCol).isSpecialMove());
-		else
-			return (fromRow == WHITEPAWNJUMP) && (table.getPiece(fromRow, toCol).isSpecialMove());
-	}
-
-
-
-	
+        private RegistrationController(Controller aThis) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+    }
 }
