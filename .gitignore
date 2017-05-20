@@ -3,3 +3,7 @@
 /run.bat
 /Chess-Controller/target/
 /Chess-View/target/
+/Service/target/
+.classpath
+.project
+.settings/

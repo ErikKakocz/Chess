@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>hu.shadowwolf</groupId>
-		<artifactId>Chess-project</artifactId>
-		<version>1.0</version>
-	</parent>
-	<artifactId>Chess-Controller</artifactId>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>hu.shadowwolf</groupId>
+        <artifactId>Chess-project</artifactId>
+        <version>1.0</version>
+    </parent>
+    <artifactId>Chess-Controller</artifactId>
     <repositories>
         <repository>
             <id>unknown-jars-temp-repo</id>
@@ -15,49 +15,56 @@
         </repository>
     </repositories>
     <dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-		</dependency>
-		<dependency>
-                    <groupId>javax.persistence</groupId>
-                    <artifactId>persistence-api</artifactId>
-                    <version>1.0</version>
-                </dependency>
-                <dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.6.2</version>
-		</dependency>
-		<dependency>
-			<groupId>hu.shadowwolf</groupId>
-			<artifactId>Chess-Model</artifactId>
-			<version>1.0</version>
-		</dependency>
-	 <dependency>
-	  <groupId>hu.shadowwolf</groupId>
-	  <artifactId>Chess-View</artifactId>
-	  <version>1.0</version>
-	  <type>jar</type>
-	 </dependency>
-	 <dependency>
-	  <groupId>org.hibernate</groupId>
-	  <artifactId>hibernate-entitymanager</artifactId>
-	  <version>4.3.1.Final</version>
-	 </dependency>
-         <dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.6.2</version>
+        </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/de.svenkubiak/jBCrypt -->
+        <dependency>
+            <groupId>de.svenkubiak</groupId>
+            <artifactId>jBCrypt</artifactId>
+            <version>0.4</version>
+        </dependency>
+        <dependency>
+            <groupId>hu.shadowwolf</groupId>
+            <artifactId>Chess-Service</artifactId>
+            <version>1.0</version>  
+        </dependency>
+
+        <dependency>
+            <groupId>hu.shadowwolf</groupId>
+            <artifactId>Chess-View</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>hu.shadowwolf</groupId>
+            <artifactId>Chess-Model</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>4.3.1.Final</version>
+        </dependency>
+        <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.1-api</artifactId>
             <version>1.0.0.Final</version>
             <type>jar</type>
         </dependency>
-        <dependency>
-            <groupId>unknown.binary</groupId>
-            <artifactId>hibernate-jpamodelgen-4.3.1.Final</artifactId>
-            <version>SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
+        
     </dependencies>
 
 </project>

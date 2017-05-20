@@ -13,22 +13,23 @@
         <URL value="@/styles/registration.css" />
     </stylesheets>
    <children>
-      <TextField fx:id="UserNameField" id="UserNameField" layoutX="199.0" layoutY="65.0" prefHeight="25.0" prefWidth="203.0" />
+      <TextField id="UserNameField" fx:id="UserNameField" layoutX="199.0" layoutY="65.0" prefHeight="25.0" prefWidth="203.0" />
       <TextField fx:id="NickNameField" layoutX="199.0" layoutY="116.0" prefHeight="25.0" prefWidth="203.0" />
-      <TextField fx:id="PasswordField" id="PasswordField" layoutX="199.0" layoutY="167.0" prefHeight="25.0" prefWidth="203.0" />
-      <TextField fx:id="PasswordAgainField" id="PasswordAgainField" layoutX="199.0" layoutY="222.0" prefHeight="25.0" prefWidth="203.0" />
+      <TextField id="PasswordField" fx:id="PasswordField" layoutX="199.0" layoutY="167.0" prefHeight="25.0" prefWidth="203.0" />
+      <TextField id="PasswordAgainField" fx:id="PasswordAgainField" layoutX="199.0" layoutY="222.0" prefHeight="25.0" prefWidth="203.0" />
       <TextField fx:id="EmailField" layoutX="199.0" layoutY="275.0" prefHeight="25.0" prefWidth="203.0" />
       <Text layoutX="119.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registration" textAlignment="CENTER" wrappingWidth="203.00000309944153">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-      <Label id="UserNameLabel" layoutX="48.0" layoutY="69.0" prefHeight="17.0" prefWidth="115.0" text="Label" />
-      <Label id="PasswordLabel" layoutX="48.0" layoutY="171.0" prefHeight="17.0" prefWidth="115.0" text="Label" />
-      <Label id="PasswordAgainLabel" layoutX="48.0" layoutY="226.0" prefHeight="17.0" prefWidth="115.0" text="Label" />
-      <Label id="NickNameLabel" layoutX="48.0" layoutY="120.0" prefHeight="17.0" prefWidth="115.0" text="Label" />
-      <Label id="EmailLabel" layoutX="48.0" layoutY="279.0" prefHeight="17.0" prefWidth="115.0" text="Label" />
-      <Button fx:id="RegisterButton" layoutX="93.0" layoutY="349.0" mnemonicParsing="false" text="Button" />
-      <Button fx:id="CancelButton" layoutX="296.0" layoutY="349.0" mnemonicParsing="false" text="Button" />
+      <Label id="UserNameLabel" layoutX="48.0" layoutY="69.0" prefHeight="17.0" prefWidth="115.0" text="Username" />
+      <Label id="PasswordLabel" layoutX="48.0" layoutY="171.0" prefHeight="17.0" prefWidth="115.0" text="Password" />
+      <Label id="PasswordAgainLabel" layoutX="48.0" layoutY="226.0" prefHeight="17.0" prefWidth="115.0" text="Confirm password" />
+      <Label id="NickNameLabel" layoutX="48.0" layoutY="120.0" prefHeight="17.0" prefWidth="115.0" text="Nickname" />
+      <Label id="EmailLabel" layoutX="48.0" layoutY="279.0" prefHeight="17.0" prefWidth="115.0" text="E-mail" />
+      <Button fx:id="RegisterButton" layoutX="93.0" layoutY="349.0" mnemonicParsing="false" text="Register" />
+      <Button fx:id="CancelButton" layoutX="296.0" layoutY="349.0" mnemonicParsing="false" text="Cancel" />
+      <Label fx:id="UnsuccesfulValidationLabel" id="UnsuccesfulValidationLabel" layoutX="92.0" layoutY="307.0" prefHeight="40.0" prefWidth="255.0" />
    </children>
 </AnchorPane>

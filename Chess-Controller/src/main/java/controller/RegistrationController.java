@@ -15,11 +15,18 @@ import java.util.List;
  */
 public class RegistrationController implements RegistrationControllerInterface{
 
+    Controller controller;
+    
     public RegistrationController(){
         
     
     }
 
+    public RegistrationController(Controller cont){
+        controller=cont;
+    
+    }
+    
     public User getUser() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -29,7 +36,7 @@ public class RegistrationController implements RegistrationControllerInterface{
     }
 
     public void persistUser(String username, String nick, String pass, String email) {
-        //PersistenceController
+        
     }
 
     

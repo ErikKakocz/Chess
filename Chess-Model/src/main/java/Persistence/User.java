@@ -27,7 +27,8 @@ public class User implements Serializable{
     @GeneratedValue(strategy=AUTO)
     private Long id;
     
-    
+    private String email;
+
     private String username;
     
     private String password;
@@ -35,6 +36,9 @@ public class User implements Serializable{
     private String name;
     
     private String bio;
+    
+    private int ELO;
+
     
     private boolean changedSinceLogin;
     
@@ -120,4 +124,20 @@ public class User implements Serializable{
     }
     
     
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    
+    
+    public int getELO() {
+        return ELO;
+    }
+
+    public void setELO(int ELO) {
+        this.ELO = ELO;
+    }
 }

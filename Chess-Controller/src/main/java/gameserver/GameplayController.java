@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller;
+package gameserver;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -11,7 +11,7 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import static controller.Controller.table;
+import controller.Controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -25,6 +25,7 @@ import table.Table;
  */
 public class GameplayController implements ControllerInterfaces.GameplayControllerInterface {
 
+    Table table;
     static int BLACKPAWNSTART = 1, WHITEPAWNSTART = 6, BLACKPAWNJUMP = 3, WHITEPAWNJUMP = 4;
 
     public GameplayController() {
@@ -70,7 +71,7 @@ public class GameplayController implements ControllerInterfaces.GameplayControll
         }
     }
 
-    static boolean notObstructed(int fromRow, int fromCol, int toRow, int toCol) {
+    boolean notObstructed(int fromRow, int fromCol, int toRow, int toCol) {
         if (table.getPiece(fromRow, fromCol).getPieceType().equals(Type.PAWN)
                 && !pawnAttack(fromRow, fromCol, toRow, toCol)
                 && !table.getPiece(toRow, toCol).getPieceType().equals(Type.NULLPIECE)) {
@@ -96,7 +97,7 @@ public class GameplayController implements ControllerInterfaces.GameplayControll
         return true;
     }
 
-    static boolean validateMove(int fromRow, int fromCol, int toRow, int toCol) {
+    boolean validateMove(int fromRow, int fromCol, int toRow, int toCol) {
         boolean validPieceMove = false;
         pieces.Type type = table.getPiece(fromRow, fromCol).getPieceType();
         switch (type) {
@@ -137,24 +138,24 @@ public class GameplayController implements ControllerInterfaces.GameplayControll
         return validPieceMove;
     }
 
-    static boolean horizontalMove(int fromRow, int fromCol, int toRow, int toCol) {
+    boolean horizontalMove(int fromRow, int fromCol, int toRow, int toCol) {
         return (fromRow == toRow && fromCol != toCol);
     }
 
-    static boolean verticalMove(int fromRow, int fromCol, int toRow, int toCol) {
+    boolean verticalMove(int fromRow, int fromCol, int toRow, int toCol) {
         return (fromRow != toRow && fromCol == toCol);
     }
 
-    static boolean diagonalMove(int fromRow, int fromCol, int toRow, int toCol) {
+    boolean diagonalMove(int fromRow, int fromCol, int toRow, int toCol) {
         return ((Math.abs((fromRow + 1) - (toRow + 1))) == (Math.abs((fromCol + 1) - (toCol + 1))));
     }
 
-    static boolean pawnJump(int fromRow, int fromCol, int toRow, int toCol) {
+    boolean pawnJump(int fromRow, int fromCol, int toRow, int toCol) {
         return (fromRow == WHITEPAWNSTART && toRow == WHITEPAWNJUMP)
                 || (fromRow == BLACKPAWNSTART && toRow == BLACKPAWNJUMP);
     }
 
-    static boolean pawnLeap(int fromRow, int fromCol, int toRow, int toCol) {
+    boolean pawnLeap(int fromRow, int fromCol, int toRow, int toCol) {
         if (table.getPiece(fromRow, fromCol).getPieceColor().equals(Color.WHITE)) {
             return (toRow == (fromRow - 1)) && (fromCol == toCol);
         } else {
@@ -162,7 +163,7 @@ public class GameplayController implements ControllerInterfaces.GameplayControll
         }
     }
 
-    static boolean pawnAttack(int fromRow, int fromCol, int toRow, int toCol) {
+    boolean pawnAttack(int fromRow, int fromCol, int toRow, int toCol) {
         if (table.getPiece(fromRow, fromCol).getPieceColor().equals(Color.WHITE)) {
             return (toRow == (fromRow - 1)) && (Math.abs(fromCol - toCol) == 1)
                     && (table.getPiece(toRow, toCol).getPieceColor().equals(Color.BLACK));
@@ -172,7 +173,7 @@ public class GameplayController implements ControllerInterfaces.GameplayControll
         }
     }
 
-    static boolean pawnEnPassantAttack(int fromRow, int fromCol, int toRow, int toCol) {
+    boolean pawnEnPassantAttack(int fromRow, int fromCol, int toRow, int toCol) {
         if (table.getPiece(fromRow, fromCol).getPieceColor().equals(Color.WHITE)) {
             return (fromRow == BLACKPAWNJUMP) && (table.getPiece(fromRow, toCol).isSpecialMove());
         } else {

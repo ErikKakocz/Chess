@@ -5,14 +5,14 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="388.0" prefWidth="523.0" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="LobbyViewController" >
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="388.0" prefWidth="523.0" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="lobby.LobbyViewController" >
    <children>
       <ScrollPane layoutX="14.0" layoutY="14.0" prefHeight="358.0" prefWidth="247.0">
          <content>
             <ListView fx:id="GamesList" prefHeight="355.0" prefWidth="245.0" />
          </content></ScrollPane>
-      <Button fx:id="PlayButton" layoutX="300.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="179.0" text="Button" />
-      <Button fx:id="CreateCustomGameButton" layoutX="300.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="179.0" text="Button" />
-      <Button fx:id="JoinCustomGameButton" layoutX="300.0" layoutY="93.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="179.0" text="Button" />
+      <Button fx:id="PlayButton" layoutX="300.0" layoutY="14.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="179.0" text="Play" />
+      <Button fx:id="CreateCustomGameButton" layoutX="300.0" layoutY="53.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="179.0" text="Create custom" />
+      <Button fx:id="JoinCustomGameButton" layoutX="300.0" layoutY="93.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="179.0" text="Join" />
    </children>
 </AnchorPane>

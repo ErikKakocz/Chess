@@ -2,9 +2,8 @@ package menu;
 
 import ControllerInterfaces.ApplicationControllerInterface;
 import Exceptions.InvalidLoginCredentialsException;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import java.util.Properties;
 import java.util.logging.Level;
@@ -62,8 +61,6 @@ public class MenuViewController {
     Label ErrorLabel;
     
     public MenuViewController(){
-        //System.out.println("Still loading");
-        
         
     }
     
@@ -99,7 +96,6 @@ public class MenuViewController {
                     AppContInterface.login(UserNameField.getText(), PassField.getText());
                 } catch (InvalidLoginCredentialsException ex) {
                     Logger.getLogger(MenuViewController.class.getName()).log(Level.SEVERE, null, ex);
-                    ErrorLabel.setText("Hibaüzi");
                 }
             }
         });
@@ -108,23 +104,24 @@ public class MenuViewController {
     
     
     void changeLanguage(){
-        FileInputStream inStream=null;
-        String filename="Text_hu.properties";
+        InputStreamReader inStream=null;
+        String filename="/LanguageFiles/Text_hu.properties";
         String language=LanguageComboBox.getValue().toString();
         System.out.println(language);
         if(language.equals("English")){
-            filename="Text_en.properties";
+            filename="/LanguageFiles/Text_en.properties";
         }else if(language.equals("Deutsch")){
-            filename="Text_ger.properties";
+            filename="/LanguageFiles/Text_ger.properties";
         }
-        try {
-        inStream=new FileInputStream(new File(this.getClass().getClassLoader().getResource("LanguageFiles/"+filename).toString()));
         
+        try {
+            inStream = new InputStreamReader(this.getClass().getResourceAsStream(filename));
+            System.out.println(inStream);
         
             props.load(inStream);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());    
-            Logger.getLogger(MenuViewController.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(MenuViewController.class.getName()).log(Level.SEVERE, null, ex);
                 
         }
         QuitButton.setText(props.getProperty("quit"));
@@ -136,4 +133,6 @@ public class MenuViewController {
         PasswordLabel.setText(props.getProperty("password"));
     
     }
+    
+    
 }

@@ -5,10 +5,40 @@
  */
 package lobby;
 
+import ControllerInterfaces.LobbyControllerInterface;
+import Persistence.User;
+
 /**
  *
  * @author User
  */
 public class LobbyViewController {
+
+    LobbyControllerInterface LoContInt;
+    User user;
+    public LobbyViewController() {
+        
+    }
     
+    public void setupInterface(Object ob){
+        LoContInt=(LobbyControllerInterface)ob;
+    
+    }
+
+    public void setUser(User user) {
+        this.user=user;
+    }
+    
+    public void playGame(){
+        LoContInt.joinMatchmakingQueue();
+    }
+    
+    public void createCustomGame(){
+        LoContInt.createCustomGame();
+    }
+    
+    public void playCustomGame(int ID){
+        LoContInt.joinCustomQueue(ID);
+    }
+
 }

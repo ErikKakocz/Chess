@@ -19,6 +19,7 @@ import org.hibernate.Query;
  */
 public class PersistenceController {
     
+    
     public PersistenceController(){
     
     
@@ -28,10 +29,9 @@ public class PersistenceController {
         EntityManagerFactory emf=Persistence.createEntityManagerFactory("hu.shadowwolf_Chess-Controller_jar_1.0PU");
         EntityManager manager=emf.createEntityManager();
         
-        
-        
         manager.persist(user);
         
+        manager.close();
         manager.close();
         emf.close();
     }
@@ -42,9 +42,6 @@ public class PersistenceController {
         User user=null;
         EntityManagerFactory emf=Persistence.createEntityManagerFactory("hu.shadowwolf_Chess-Controller_jar_1.0PU");
         EntityManager manager=emf.createEntityManager();
-        
-        
-        
         
         return user;
     
@@ -57,10 +54,26 @@ public class PersistenceController {
         
         Query q=(Query) manager.createNativeQuery("select * from Users where username = ?");
         q.setParameter(username, 1);
-        
-        
+        //q.getFirstResult().;
         
         return user;
     
+    }
+
+    public User getUserByEmail(String mail){
+        User user=null;
+        EntityManagerFactory emf=Persistence.createEntityManagerFactory("hu.shadowwolf_Chess-Controller_jar_1.0PU");
+        EntityManager manager=emf.createEntityManager();
+        
+        Query q=(Query) manager.createNativeQuery("select * from Users where email = ?");
+        q.setParameter(mail, 1);
+        //q.getFirstResult().;
+        
+        return user;
+    
+    }
+    
+    public boolean contains(User user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
