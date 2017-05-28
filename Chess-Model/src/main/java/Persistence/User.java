@@ -7,25 +7,22 @@
 package Persistence;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.AUTO;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 /**
  *
  * @author User
  */
-@Entity
+@Entity(name="UserEntity")
 public class User implements Serializable{
 
     @Id
     @GeneratedValue(strategy=AUTO)
-    private Long id;
+    private int id;
     
     private String email;
 
@@ -35,27 +32,16 @@ public class User implements Serializable{
     
     private String name;
     
-    private String bio;
-    
     private int ELO;
 
-    
-    private boolean changedSinceLogin;
-    
-    @ManyToMany
-    private ArrayList<User> friends;
-    
-    @OneToMany
-    private ArrayList<Notification> notifications;
-    
     @Transient
     private boolean changed;
     
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
     
@@ -83,38 +69,6 @@ public class User implements Serializable{
         this.name = name;
     }
 
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
-    public boolean isChangedSinceLogin() {
-        return changedSinceLogin;
-    }
-
-    public void setChangedSinceLogin(boolean changedSinceLogin) {
-        this.changedSinceLogin = changedSinceLogin;
-    }
-
-    public ArrayList<User> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(ArrayList<User> friends) {
-        this.friends = friends;
-    }
-
-    public ArrayList<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(ArrayList<Notification> notifications) {
-        this.notifications = notifications;
-    }
-
     public boolean isChanged() {
         return changed;
     }
@@ -140,4 +94,11 @@ public class User implements Serializable{
     public void setELO(int ELO) {
         this.ELO = ELO;
     }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", email=" + email + ", username=" + username + ", name=" + name + '}';
+    }
+    
+    
 }

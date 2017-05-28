@@ -23,17 +23,28 @@ import table.Table;
  *
  * @author User
  */
-public class GameplayController implements ControllerInterfaces.GameplayControllerInterface {
+public class GameplayController{
 
+    ServerThread Player1,Player2;
     Table table;
     static int BLACKPAWNSTART = 1, WHITEPAWNSTART = 6, BLACKPAWNJUMP = 3, WHITEPAWNJUMP = 4;
 
+    
+    
     public GameplayController() {
         table = new Table();
         setupTable();
 
     }
 
+    public GameplayController(ServerThread Player1,ServerThread Player2) {
+        table = new Table();
+        setupTable();
+        this.Player1=Player1;
+        this.Player2=Player2;
+
+    }
+    
     public final void setupTable() {
         JsonParser parser = new JsonParser();
         try {
@@ -59,11 +70,10 @@ public class GameplayController implements ControllerInterfaces.GameplayControll
 
     static File getJsonFile(String filename) {
         ClassLoader cl = Controller.class.getClassLoader();
-        File file = new File(cl.getResource(filename).getFile());
+            File file = new File(cl.getResource(filename).getFile());
         return file;
     }
 
-    @Override
     public void movePiece(int fromRow, int fromCol, int toRow, int toCol) {
         if (validateMove(fromRow, fromCol, toRow, toCol) && notObstructed(fromRow, fromCol, toRow, toCol) && !(table
                 .getPiece(toRow, toCol).getPieceColor().equals(table.getPiece(fromRow, fromCol).getPieceColor()))) {
@@ -97,7 +107,7 @@ public class GameplayController implements ControllerInterfaces.GameplayControll
         return true;
     }
 
-    boolean validateMove(int fromRow, int fromCol, int toRow, int toCol) {
+    public boolean validateMove(int fromRow, int fromCol, int toRow, int toCol) {
         boolean validPieceMove = false;
         pieces.Type type = table.getPiece(fromRow, fromCol).getPieceType();
         switch (type) {
@@ -180,4 +190,6 @@ public class GameplayController implements ControllerInterfaces.GameplayControll
             return (fromRow == WHITEPAWNJUMP) && (table.getPiece(fromRow, toCol).isSpecialMove());
         }
     }
+
+    
 }

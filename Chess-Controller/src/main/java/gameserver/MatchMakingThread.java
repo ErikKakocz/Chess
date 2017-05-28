@@ -12,30 +12,29 @@ import java.util.Collections;
  *
  * @author User
  */
-public class MatchMakingThread implements Runnable{
+public class MatchMakingThread implements Runnable {
 
     Server server;
     ArrayList<ServerThread> usersWaitingToPlay;
     private boolean running;
-    
+
     public MatchMakingThread(Server s) {
-        server=s;
+        usersWaitingToPlay=new ArrayList<ServerThread>();
+        server = s;
     }
 
-    public void Addplayer(ServerThread player){
+    public void Addplayer(ServerThread player) {
         usersWaitingToPlay.add(player);
     }
-    
+
     public void run() {
-        running=true;
-        Collections.sort(usersWaitingToPlay);
-        for(int i=0;i<usersWaitingToPlay.size();i++)
-            for(int j=i+10;j<usersWaitingToPlay.size();j++){
+        running = true;
+        while (running) {
+            Collections.sort(usersWaitingToPlay);
+            if (usersWaitingToPlay.size() > 1) 
+                server.startGame(usersWaitingToPlay.remove(1), usersWaitingToPlay.remove(0));
                 
-            
-            }
-                
-        
+        }
     }
 
     public boolean isRunning() {
@@ -46,8 +45,4 @@ public class MatchMakingThread implements Runnable{
         this.running = running;
     }
 
-    void gameStart(ServerThread ThreadOne, ServerThread ThreadTwo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

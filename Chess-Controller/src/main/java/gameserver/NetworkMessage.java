@@ -5,11 +5,13 @@
  */
 package gameserver;
 
+import java.io.Serializable;
+
 /**
  *
  * @author User
  */
-public class NetworkMessage {
+public class NetworkMessage implements Serializable{
     String message;
     Object attachment;
     

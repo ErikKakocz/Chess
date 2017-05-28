@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
@@ -43,7 +44,7 @@ public class MenuViewController {
     TextField UserNameField;
     
     @FXML
-    TextField PassField;
+    PasswordField PassField;
     
     @FXML
     Label UserNameLabel;
@@ -91,7 +92,7 @@ public class MenuViewController {
         });
         LoginButton.setOnAction(new EventHandler() {
             public void handle(Event event) {
-                
+                System.out.println("username:"+UserNameField.getText()+" pass:"+PassField.getText());
                 try {
                     AppContInterface.login(UserNameField.getText(), PassField.getText());
                 } catch (InvalidLoginCredentialsException ex) {

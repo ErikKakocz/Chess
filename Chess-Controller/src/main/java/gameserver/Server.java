@@ -5,11 +5,11 @@
  */
 package gameserver;
 
-import Persistence.User;
+import controller.Persistence.PersistenceController;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.ServerSocket;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Queue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,40 +20,71 @@ import java.util.logging.Logger;
 public class Server implements Runnable{
     
     private static int PORTNUMBER=5555;
-    ArrayList<ServerThread> serverThreads;
-    ServerSocket serverSocket;
+    ArrayList<Thread> serverThreads;
+    Thread MMRunner;
     MatchMakingThread MMThread;
+    PersistenceController persistenceController;
+    ConnectionListenerThread ConnectionThread;
     
     public Server(){
         MMThread=new MatchMakingThread(this);
+        MMRunner=new Thread(MMThread);
+        serverThreads=new ArrayList<Thread>();
+        persistenceController=new PersistenceController();
+        ConnectionThread=new ConnectionListenerThread(this,persistenceController);
     }
     
     public Server(int port){
         PORTNUMBER=port;
-        
+        MMThread=new MatchMakingThread(this);
+        MMRunner=new Thread(MMThread);
+        serverThreads=new ArrayList<Thread>();
+        persistenceController=new PersistenceController();
+        ConnectionThread=new ConnectionListenerThread(this,persistenceController);
     }
 
     public void run() {
-        try {
-            serverSocket=new ServerSocket(PORTNUMBER);
-        } catch (IOException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        while(serverSocket!=null){
-            try {
-                Logger.getLogger(Server.class.getName()).log(Level.INFO, "Awaiting connection...");
-                ServerThread s=new ServerThread(serverSocket.accept(),this);
-                serverThreads.add(s);
-                s.run();
-            } catch (IOException ex) {
-                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            Thread connd=new Thread(ConnectionThread);
+            connd.start();
+            MMRunner.start();
+            BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
+            while(true){
+                try {
+                    processInput(reader.readLine());
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         
-        }
+    }
+    
+    
+    void shutdown(){
+        persistenceController.close();
+        Logger.getLogger(Server.class.getName()).log(Level.INFO, "Server shutting down");
+        System.exit(0);
     }
     
     public void JoinMatchmaking(ServerThread playerThread){
         MMThread.Addplayer(playerThread);
-        
+    }
+
+    void addServerThread(Thread s) {
+        serverThreads.add(s);
+        s.start();
+    }
+
+    private void processInput(String readLine) {
+        if(readLine.equals("shutdown"))
+            shutdown();
+    }
+    
+    void startGame(ServerThread player1, ServerThread player2) {
+        GameplayController gameplayController = new GameplayController(player1, player2);
+        player1.setGameplayController(gameplayController);
+        player2.setGameplayController(gameplayController);
+        player1.setWaitingOnMatch(false);
+        player2.setWaitingOnMatch(false);
     }
 }

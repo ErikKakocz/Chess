@@ -8,40 +8,39 @@ package controller.Persistence;
 import Persistence.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+
 import javax.persistence.Persistence;
-import org.hibernate.Query;
-
-
-
+import javax.persistence.TypedQuery;
 /**
  *
  * @author User
  */
 public class PersistenceController {
     
+    EntityManagerFactory emf;
+        EntityManager manager;
+        
+    
     
     public PersistenceController(){
-    
-    
+        emf=Persistence.createEntityManagerFactory("hu.shadowwolf_Chess-Controller_jar_1.0PU");
+        manager=emf.createEntityManager();
     }
     
     public void persistUser(User user){
-        EntityManagerFactory emf=Persistence.createEntityManagerFactory("hu.shadowwolf_Chess-Controller_jar_1.0PU");
-        EntityManager manager=emf.createEntityManager();
-        
+        manager.getTransaction().begin();
         manager.persist(user);
-        
-        manager.close();
-        manager.close();
-        emf.close();
+        manager.getTransaction().commit();
     }
 
     
     
     public User getUserById(int id){
         User user=null;
-        EntityManagerFactory emf=Persistence.createEntityManagerFactory("hu.shadowwolf_Chess-Controller_jar_1.0PU");
-        EntityManager manager=emf.createEntityManager();
+        
+        TypedQuery<User> q=(TypedQuery<User>) manager.createQuery("select u from UserEntity u where u.id = ?1 ");
+        q.setParameter(id, 1);
+        user=q.getSingleResult();
         
         return user;
     
@@ -49,12 +48,12 @@ public class PersistenceController {
     
     public User getUserByUserName(String username){
         User user=null;
-        EntityManagerFactory emf=Persistence.createEntityManagerFactory("hu.shadowwolf_Chess-Controller_jar_1.0PU");
-        EntityManager manager=emf.createEntityManager();
         
-        Query q=(Query) manager.createNativeQuery("select * from Users where username = ?");
-        q.setParameter(username, 1);
-        //q.getFirstResult().;
+        
+        TypedQuery<User> q=(TypedQuery<User>) manager.createQuery("select u from UserEntity u where u.username like ?1 ");
+        q.setParameter(1,username);
+        if(q.getResultList().size()>0)
+            user=q.getSingleResult();
         
         return user;
     
@@ -62,18 +61,24 @@ public class PersistenceController {
 
     public User getUserByEmail(String mail){
         User user=null;
-        EntityManagerFactory emf=Persistence.createEntityManagerFactory("hu.shadowwolf_Chess-Controller_jar_1.0PU");
-        EntityManager manager=emf.createEntityManager();
         
-        Query q=(Query) manager.createNativeQuery("select * from Users where email = ?");
-        q.setParameter(mail, 1);
-        //q.getFirstResult().;
+        TypedQuery<User> q=(TypedQuery<User>) manager.createQuery("select u from UserEntity u where email like ?1 ");
+        q.setParameter(1,mail);
+        if(q.getResultList().size()>0)
+            user=q.getSingleResult();
         
         return user;
-    
     }
+    
     
     public boolean contains(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getUserByUserName(user.getName())!=null || getUserByEmail(user.getEmail())!=null;
     }
+    
+    public void close(){
+        manager.close();
+        emf.close();
+    }
+    
+    
 }

@@ -7,8 +7,7 @@ package ControllerInterfaces;
  */
 
 
-import Persistence.User;
-import java.util.List;
+import Exceptions.InvalidRegistrationException;
 
 /**
  *
@@ -16,10 +15,6 @@ import java.util.List;
  */
 public interface RegistrationControllerInterface {
 
-    public void persistUser(String username,String nick,String pass,String email);
-    
-    public User getUser();
-    
-    public List<User> getUsers();
-    
+    public void persistUser(String username,String nick,String pass,String email) throws InvalidRegistrationException;
+        
 }

@@ -19,7 +19,9 @@ public interface LobbyControllerInterface {
 
     public void createCustomGame();
 
-    public void joinCustomQueue(int ID);
+    public void joinCustomQueue(long ID);
+    
+    public void logout();
  
     
     

@@ -12,7 +12,13 @@ package ControllerInterfaces;
  * @author User
  */
 public interface GameplayControllerInterface {
- 
+    
+    
+    
+    abstract void giveUp();
+    
+    abstract void askForValidation(int fromRow, int fromCol, int toRow, int toCol);
+    
     abstract void movePiece(int fromRow, int fromCol, int toRow, int toCol);
    
 }
